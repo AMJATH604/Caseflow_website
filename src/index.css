@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * The public site is deliberately one visual world: ink (a navy-biased
+ * near-black) with the app's royal blue, and the logo's gold and green as
+ * accents. The admin panel opts into a light palette with .theme-admin.
+ */
+:root {
+  --ink: 6 7 26;
+  --ink-2: 12 14 43;
+  --ink-3: 20 23 62;
+  --fg: 237 239 252;
+  --fg-2: 163 168 207;
+  --fg-3: 106 111 153;
+  --royal: 37 99 235;
+  --violet: 99 102 241;
+  --sky: 56 189 248;
+  --gold: 217 180 90;
+  --jade: 20 184 138;
+  --danger: 239 68 68;
+  --warn: 245 158 11;
+  --paper: 244 245 250;
+  --paper-2: 255 255 255;
+  --line: 160 170 255;
+  --line-a: 0.12;
+  color-scheme: dark;
+}
+
+.theme-admin {
+  --ink: 246 247 251;
+  --ink-2: 255 255 255;
+  --ink-3: 238 240 247;
+  --fg: 14 17 45;
+  --fg-2: 75 81 120;
+  --fg-3: 128 133 168;
+  --gold: 168 128 30;
+  --jade: 5 150 105;
+  --line: 30 40 110;
+  --line-a: 0.1;
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-ink text-fg font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: rgb(var(--royal) / 0.45);
+    color: white;
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--sky));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+/* Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-fg-2;
+  }
+  .display {
+    @apply font-sans font-semibold tracking-tightest leading-[0.98];
+  }
+  .accent-serif {
+    @apply font-serif italic font-normal tracking-normal;
+  }
+  .text-gradient {
+    background: linear-gradient(100deg, #fff 0%, rgb(var(--fg-2)) 55%, rgb(var(--fg-3)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-aurora {
+    background: linear-gradient(95deg, rgb(var(--sky)) 0%, rgb(var(--violet)) 45%, rgb(var(--gold)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hairline {
+    border-color: rgb(var(--line) / var(--line-a));
+  }
+  .surface {
+    background: linear-gradient(180deg, rgb(var(--ink-2) / 0.9), rgb(var(--ink-2) / 0.6));
+    border: 1px solid rgb(var(--line) / var(--line-a));
+  }
+  .glow-ring {
+    box-shadow:
+      0 0 0 1px rgb(var(--line) / 0.16),
+      0 30px 80px -20px rgb(var(--royal) / 0.35);
+  }
+  .dot-grid {
+    background-image: radial-gradient(rgb(var(--line) / 0.16) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 h-11 text-sm font-medium transition-[transform,background-color,box-shadow,color] duration-200 select-none whitespace-nowrap;
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn-primary {
+    @apply btn bg-fg text-ink hover:bg-white;
+    box-shadow: 0 8px 30px -8px rgb(var(--royal) / 0.6);
+  }
+  .btn-royal {
+    @apply btn bg-royal text-white hover:bg-royal/90;
+  }
+  .btn-ghost {
+    @apply btn text-fg border hairline hover:bg-fg/5;
+  }
+  .field {
+    @apply w-full rounded-xl bg-ink-3/60 border hairline px-4 h-12 text-[15px] text-fg placeholder:text-fg-3 outline-none transition focus:border-royal/70 focus:bg-ink-3;
+  }
+  textarea.field {
+    @apply h-auto py-3;
+  }
+  .label {
+    @apply block text-[13px] font-medium text-fg-2 mb-1.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee 40s linear infinite;
+}
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: caret 1s steps(1) infinite;
+}
